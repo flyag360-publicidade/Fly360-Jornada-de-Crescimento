@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fly360 — Proposta Comercial</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: #E45017;
+    --accent-light: #FF6B35;
+    --accent-dark: #B83D10;
+    --black: #0A0A0A;
+    --dark: #111111;
+    --dark-2: #1A1A1A;
+    --gray-dark: #2A2A2A;
+    --gray-mid: #444444;
+    --gray: #888888;
+    --gray-light: #CCCCCC;
+    --gray-pale: #F0F0F0;
+    --white: #FFFFFF;
+    --font: 'Montserrat', sans-serif;
+    --nav-h: 64px;
+    --prog-h: 3px;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  html { font-family: var(--font); background: var(--black); color: var(--white); overflow-x: hidden; }
+
+  body { min-height: 100vh; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--dark); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+  /* ── TOP NAV ── */
+  #topnav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--nav-h);
+    background: rgba(10,10,10,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px;
+  }
+
+  .nav-logo {
+    font-size: 18px; font-weight: 800; letter-spacing: 0.08em;
+    color: var(--white); text-transform: uppercase;
+  }
+  .nav-logo span { color: var(--accent); }
+
+  .nav-steps {
+    display: flex; gap: 4px; align-items: center;
+  }
+  .nav-step {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 16px; border-radius: 20px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer;
+    color: var(--gray); border: 1px solid transparent;
+    transition: var(--transition);
+    white-space: nowrap;
+  }
+  .nav-step .step-num {
+    width: 20px; height: 20px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700;
+    background: var(--gray-dark); color: var(--gray);
+    transition: var(--transition); flex-shrink: 0;
+  }
+  .nav-step.active {
+    color: var(--white); border-color: rgba(228,80,23,0.3);
+    background: rgba(228,80,23,0.08);
+  }
+  .nav-step.active .step-num {
+    background: var(--accent); color: var(--white);
+  }
+  .nav-step.done { color: var(--gray-light); }
+  .nav-step.done .step-num {
+    background: var(--gray-mid); color: var(--white);
+  }
+  .nav-step:hover:not(.active) { color: var(--gray-light); }
+
+  /* ── PROGRESS BAR ── */
+  #progress-bar {
+    position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 99;
+    height: var(--prog-h); background: rgba(255,255,255,0.06);
+  }
+  #progress-fill {
+    height: 100%; background: var(--accent);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 12px rgba(228,80,23,0.6);
+  }
+
+  /* ── MAIN CONTAINER ── */
+  #slides-wrapper {
+    padding-top: calc(var(--nav-h) + var(--prog-h));
+    min-height: 100vh;
+  }
+
+  /* DESKTOP: horizontal slides */
+  @media (min-width: 900px) {
+    #slides-wrapper {
+      display: flex; overflow: hidden; position: relative;
+      width: 100%;
+    }
+    .slide {
+      min-width: 100vw; width: 100vw;
+      min-height: calc(100vh - var(--nav-h) - var(--prog-h));
+      overflow-y: auto; flex-shrink: 0;
+      transition: transform 0.6s cubic-bezier(0.77,0,0.175,1);
+    }
+  }
+
+  /* MOBILE: vertical */
+  @media (max-width: 899px) {
+    #slides-wrapper { display: block; }
+    .slide {
+      width: 100%; display: none;
+    }
+    .slide.active { display: block; }
+  }
+
+  /* ── SLIDE INNER PADDING ── */
+  .slide-inner {
+    max-width: 1200px; margin: 0 auto;
+    padding: 60px 40px 120px;
+  }
+
+  @media (max-width: 899px) {
+    .slide-inner { padding: 40px 20px 100px; }
+    #topnav { padding: 0 20px; }
+    .nav-steps { display: none; }
+  }
+
+  /* ── SECTION LABELS ── */
+  .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .section-label::before {
+    content: ''; display: block; width: 24px; height: 2px;
+    background: var(--accent);
+  }
+
+  /* ── HEADINGS ── */
+  .hero-title {
+    font-size: clamp(32px, 5vw, 60px);
+    font-weight: 800; line-height: 1.1;
+    letter-spacing: -0.02em; margin-bottom: 20px;
+    color: var(--white);
+  }
+  .hero-title em { color: var(--accent); font-style: normal; }
+
+  .hero-sub {
+    font-size: clamp(15px, 2vw, 19px);
+    font-weight: 400; color: var(--gray-light);
+    line-height: 1.6; max-width: 640px; margin-bottom: 36px;
+  }
+
+  .section-title {
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 700; letter-spacing: -0.02em;
+    color: var(--white); margin-bottom: 8px;
+  }
+
+  .section-body {
+    font-size: 15px; font-weight: 400;
+    color: var(--gray-light); line-height: 1.7;
+    max-width: 800px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, var(--accent) 0%, rgba(255,255,255,0.04) 60%);
+    margin: 48px 0;
+  }
+
+  /* ── CTA BUTTONS ── */
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--accent); color: var(--white);
+    padding: 14px 32px; border-radius: 4px;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer; border: none;
+    transition: var(--transition); text-decoration: none;
+    position: relative; overflow: hidden;
+  }
+  .btn-primary::after {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(255,255,255,0); transition: var(--transition);
+  }
+  .btn-primary:hover::after { background: rgba(255,255,255,0.1); }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(228,80,23,0.4); }
+
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: transparent; color: var(--white);
+    padding: 13px 30px; border-radius: 4px;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: var(--transition); text-decoration: none;
+  }
+  .btn-secondary:hover {
+    border-color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.04);
+  }
+
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: var(--gray);
+    padding: 10px 0; border: none;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer; transition: var(--transition);
+    font-family: var(--font);
+  }
+  .btn-ghost:hover { color: var(--white); }
+
+  .btn-group { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+
+  /* ── ARROW ── */
+  .arrow-icon {
+    width: 16px; height: 16px; display: block;
+    transition: transform 0.2s ease;
+  }
+  .btn-primary:hover .arrow-icon,
+  .btn-ghost:hover .arrow-icon { transform: translateX(3px); }
+
+  /* ── CARDS GRID ── */
+  .cards-grid {
+    display: grid;
+    gap: 16px;
+    margin-top: 28px;
+  }
+  .cards-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .cards-grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .cards-grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+  @media (max-width: 1100px) {
+    .cards-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 700px) {
+    .cards-grid-4, .cards-grid-3, .cards-grid-2 { grid-template-columns: 1fr; }
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--dark-2);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    transition: var(--transition);
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: transparent; transition: var(--transition);
+  }
+  .card:hover {
+    border-color: rgba(228,80,23,0.25);
+    transform: translateY(-2px);
+    background: rgba(26,26,26,0.95);
+  }
+  .card:hover::before { background: var(--accent); }
+  .card:hover { box-shadow: 0 16px 48px rgba(0,0,0,0.4); }
+
+  .card-accent { border-color: rgba(228,80,23,0.2); }
+  .card-accent::before { background: var(--accent); }
+
+  .card-title {
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 10px;
+  }
+  .card-body {
+    font-size: 14px; color: var(--gray-light);
+    line-height: 1.65;
+  }
+
+  /* ── PILLAR ICON ── */
+  .pillar-icon {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    background: rgba(228,80,23,0.1);
+    border: 1px solid rgba(228,80,23,0.2);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px; font-size: 18px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ── FUNNEL STEPS ── */
+  .funnel-steps {
+    display: flex; gap: 0; margin-top: 28px;
+    align-items: stretch;
+  }
+  .funnel-step {
+    flex: 1; padding: 28px 24px;
+    background: var(--dark-2);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    border-right: 1px solid rgba(255,255,255,0.06);
+    position: relative; transition: var(--transition);
+  }
+  .funnel-step:first-child { border-left: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius) 0 0 var(--radius); }
+  .funnel-step:last-child { border-radius: 0 var(--radius) var(--radius) 0; }
+  .funnel-step:hover { background: rgba(228,80,23,0.05); }
+  .funnel-step::after {
+    content: ''; position: absolute;
+    right: -10px; top: 50%; transform: translateY(-50%);
+    width: 0; height: 0;
+    border-top: 24px solid transparent;
+    border-bottom: 24px solid transparent;
+    border-left: 10px solid var(--dark-2);
+    z-index: 2; transition: var(--transition);
+  }
+  .funnel-step:hover::after { border-left-color: rgba(228,80,23,0.05); }
+  .funnel-step:last-child::after { display: none; }
+  .funnel-num {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+  }
+  .funnel-label {
+    font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 8px;
+  }
+  .funnel-desc { font-size: 12px; color: var(--gray); line-height: 1.6; }
+
+  @media (max-width: 700px) {
+    .funnel-steps { flex-direction: column; gap: 2px; }
+    .funnel-step { border-radius: 0; border-right: 1px solid rgba(255,255,255,0.06); border-left: 1px solid rgba(255,255,255,0.06); }
+    .funnel-step:first-child { border-radius: var(--radius) var(--radius) 0 0; }
+    .funnel-step:last-child { border-radius: 0 0 var(--radius) var(--radius); }
+    .funnel-step::after { display: none; }
+  }
+
+  /* ── METHODOLOGY CARDS ── */
+  .method-card {
+    background: var(--dark-2);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    position: relative; overflow: hidden;
+  }
+  .method-tag {
+    font-size: 28px; font-weight: 900;
+    letter-spacing: -0.02em; color: var(--white);
+    margin-bottom: 6px;
+  }
+  .method-tag span { color: var(--accent); }
+  .method-expand {
+    font-size: 12px; font-weight: 500; color: var(--gray);
+    letter-spacing: 0.08em; margin-bottom: 16px;
+  }
+  .method-body { font-size: 14px; color: var(--gray-light); line-height: 1.7; }
+  .method-bg {
+    position: absolute; right: 24px; top: 24px;
+    font-size: 80px; font-weight: 900;
+    color: rgba(255,255,255,0.02); letter-spacing: -0.05em;
+    line-height: 1; pointer-events: none;
+  }
+
+  /* ── CLOSING QUOTE ── */
+  .closing-quote {
+    background: linear-gradient(135deg, rgba(228,80,23,0.08), rgba(228,80,23,0.02));
+    border: 1px solid rgba(228,80,23,0.2);
+    border-radius: var(--radius);
+    padding: 32px 36px;
+    margin-top: 48px;
+  }
+  .closing-quote p {
+    font-size: clamp(16px, 2.5vw, 22px);
+    font-weight: 600; color: var(--white);
+    line-height: 1.5; letter-spacing: -0.01em;
+  }
+  .closing-quote p em { color: var(--accent); font-style: normal; }
+
+  /* ── PLAN HEADER ── */
+  .plan-header {
+    display: flex; align-items: flex-start; gap: 24px;
+    flex-wrap: wrap; margin-bottom: 40px;
+  }
+  .plan-badge {
+    display: inline-flex; align-items: center;
+    padding: 4px 12px; border-radius: 20px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .plan-badge.orange { background: rgba(228,80,23,0.15); color: var(--accent); border: 1px solid rgba(228,80,23,0.3); }
+  .plan-badge.gold { background: rgba(212,175,55,0.15); color: #D4AF37; border: 1px solid rgba(212,175,55,0.3); }
+
+  .plan-price-block { margin-top: 20px; }
+  .plan-price {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800; color: var(--white); letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .plan-price-note {
+    font-size: 12px; color: var(--gray); margin-top: 4px; line-height: 1.5;
+  }
+  .plan-price-alt {
+    margin-top: 12px; padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .plan-price-alt .plan-price { font-size: 22px; color: var(--gray-light); }
+
+  /* ── PLAN LIST ── */
+  .plan-list { list-style: none; margin-top: 12px; }
+  .plan-list li {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 6px 0; font-size: 13.5px; color: var(--gray-light);
+    border-bottom: 1px solid rgba(255,255,255,0.03); line-height: 1.5;
+  }
+  .plan-list li:last-child { border-bottom: none; }
+  .plan-list li::before {
+    content: ''; display: block; margin-top: 7px;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent); flex-shrink: 0;
+  }
+
+  /* ── INCLUDE / EXCLUDE ── */
+  .not-included {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: var(--radius); padding: 24px 28px;
+    margin-top: 20px;
+  }
+  .not-included-title {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gray); margin-bottom: 14px;
+  }
+  .not-included-list { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+  .not-included-list li {
+    font-size: 12px; color: var(--gray);
+    padding: 4px 10px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .not-included-list li::before {
+    content: ''; width: 12px; height: 1px; background: var(--gray-mid);
+  }
+
+  /* ── CHOOSE IF ── */
+  .choose-if {
+    background: rgba(228,80,23,0.06);
+    border: 1px solid rgba(228,80,23,0.15);
+    border-radius: var(--radius); padding: 24px 28px;
+    margin-top: 20px;
+  }
+  .choose-if-title {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 10px;
+  }
+  .choose-if p { font-size: 14px; color: var(--gray-light); line-height: 1.65; }
+
+  /* ── FOOTNOTE ── */
+  .plan-footnote {
+    font-size: 13px; color: var(--gray);
+    font-style: italic; margin-top: 28px;
+    padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.06);
+    line-height: 1.65;
+  }
+
+  /* ── SECTION BLOCK ── */
+  .section-block { margin-bottom: 32px; }
+  .section-block-title {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--white); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-block-title::after {
+    content: ''; flex: 1; height: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  /* ── ADD-ON CARD ── */
+  .addon-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius-sm); padding: 20px 22px;
+  }
+  .addon-title { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .addon-list { list-style: none; }
+  .addon-list li {
+    font-size: 13px; color: var(--gray-light);
+    padding: 3px 0; display: flex; align-items: flex-start; gap: 8px; line-height: 1.5;
+  }
+  .addon-list li::before {
+    content: ''; display: block; margin-top: 7px;
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--gray); flex-shrink: 0;
+  }
+
+  /* ── COMPARISON TABLE ── */
+  .comparison-wrapper {
+    overflow-x: auto; margin-top: 32px; border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  table.comparison {
+    width: 100%; border-collapse: collapse;
+    min-width: 700px;
+  }
+  table.comparison th, table.comparison td {
+    padding: 13px 18px; font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    text-align: center;
+  }
+  table.comparison thead th {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 18px;
+    background: var(--dark-2);
+  }
+  table.comparison thead th:first-child { text-align: left; }
+  table.comparison thead th.col-dominio {
+    background: rgba(228,80,23,0.1);
+    color: var(--accent);
+  }
+  table.comparison tbody tr:hover td { background: rgba(255,255,255,0.015); }
+  table.comparison td:first-child {
+    text-align: left; color: var(--gray-light);
+    font-weight: 500; font-size: 13px;
+  }
+  table.comparison td.col-dominio {
+    background: rgba(228,80,23,0.04);
+    color: var(--white); font-weight: 600;
+  }
+  table.comparison td.col-other { color: var(--gray); }
+  .check-yes { color: #4CAF50; font-size: 14px; }
+  .check-no { color: var(--gray-dark); font-size: 16px; font-weight: 300; }
+  .check-val { color: var(--white); font-weight: 600; font-size: 13px; }
+  .check-val-dom { color: var(--accent); font-weight: 700; font-size: 13px; }
+
+  /* ── FINAL CTA ── */
+  .final-cta {
+    background: linear-gradient(135deg, rgba(228,80,23,0.12) 0%, rgba(228,80,23,0.04) 100%);
+    border: 1px solid rgba(228,80,23,0.2);
+    border-radius: var(--radius);
+    padding: 56px 48px;
+    text-align: center; margin-top: 48px;
+    position: relative; overflow: hidden;
+  }
+  .final-cta::before {
+    content: '';
+    position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(228,80,23,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .final-cta-title {
+    font-size: clamp(24px, 4vw, 38px);
+    font-weight: 800; letter-spacing: -0.02em;
+    color: var(--white); margin-bottom: 16px; position: relative;
+  }
+  .final-cta-body {
+    font-size: 16px; color: var(--gray-light);
+    line-height: 1.7; max-width: 600px; margin: 0 auto 32px;
+    position: relative;
+  }
+  .final-cta-quote {
+    font-size: 18px; font-weight: 600;
+    color: var(--accent); font-style: italic;
+    margin-bottom: 36px; position: relative;
+  }
+  .final-cta .btn-group { justify-content: center; }
+
+  /* ── BOTTOM NAV ── */
+  #bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10,10,10,0.96); backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 14px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .bottom-nav-info {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gray);
+  }
+  .bottom-nav-info span { color: var(--accent); }
+
+  @media (max-width: 899px) {
+    #bottom-nav { padding: 12px 20px; }
+    .bottom-nav-info { display: none; }
+  }
+
+  /* ── HERO ACCENT LINE ── */
+  .hero-line {
+    width: 60px; height: 4px; background: var(--accent);
+    margin-bottom: 28px; border-radius: 2px;
+  }
+
+  /* ── PROBLEM CARD ── */
+  .problem-card {
+    background: var(--dark-2);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    transition: var(--transition);
+    position: relative; overflow: hidden;
+  }
+  .problem-card::after {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0; transition: var(--transition);
+  }
+  .problem-card:hover::after { opacity: 1; }
+  .problem-card:hover { border-color: rgba(228,80,23,0.15); }
+  .problem-num {
+    font-size: 36px; font-weight: 900; line-height: 1;
+    color: rgba(255,255,255,0.04); margin-bottom: 12px;
+    letter-spacing: -0.04em;
+  }
+  .problem-title {
+    font-size: 14px; font-weight: 700; color: var(--white);
+    margin-bottom: 8px; letter-spacing: 0.01em;
+  }
+  .problem-body { font-size: 13px; color: var(--gray); line-height: 1.65; }
+
+  /* ── PLAN GRID ── */
+  .plan-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 32px; margin-top: 0;
+  }
+  @media (max-width: 1050px) {
+    .plan-grid { grid-template-columns: 1fr; }
+  }
+
+  .plan-sidebar {
+    background: var(--dark-2);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    height: fit-content;
+    position: sticky; top: calc(var(--nav-h) + var(--prog-h) + 20px);
+  }
+  @media (max-width: 1050px) {
+    .plan-sidebar { position: relative; top: auto; }
+  }
+
+  .plan-sidebar .plan-price { font-size: 36px; }
+
+  /* ── TELA 1 hero BG ── */
+  .slide-1 .slide-inner { position: relative; }
+  .hero-bg {
+    position: absolute; right: -60px; top: -20px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(228,80,23,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ── ABOUT BLOCK ── */
+  .about-block {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 32px; align-items: start;
+  }
+  @media (max-width: 800px) {
+    .about-block { grid-template-columns: 1fr; }
+  }
+
+  /* ── TAGS ── */
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .tag {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 5px 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px; color: var(--gray-light);
+  }
+
+  /* ── HIGHLIGHT METRIC ── */
+  .metric-row {
+    display: flex; gap: 24px; margin-top: 28px; flex-wrap: wrap;
+  }
+  .metric {
+    flex: 1; min-width: 120px;
+    padding: 20px 20px;
+    background: var(--dark-2);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: var(--radius-sm);
+  }
+  .metric-value {
+    font-size: 28px; font-weight: 800;
+    color: var(--accent); letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .metric-label {
+    font-size: 11px; font-weight: 600;
+    color: var(--gray); margin-top: 6px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+
+  /* ── SCROLL HINT ── */
+  .scroll-hint {
+    position: absolute; bottom: 90px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px; font-weight: 600;
+    color: var(--gray); letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    animation: floatHint 2s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes floatHint {
+    0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+    50% { opacity: 0.8; transform: translateX(-50%) translateY(4px); }
+  }
+  .scroll-arrow {
+    width: 1px; height: 28px; background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+
+  /* ── MOBILE STEP INDICATOR ── */
+  .mobile-steps {
+    display: none;
+    padding: 16px 20px 0;
+    gap: 8px;
+  }
+  @media (max-width: 899px) {
+    .mobile-steps { display: flex; }
+  }
+  .mobile-step-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--gray-dark); flex: 1; max-width: 48px;
+    transition: var(--transition); cursor: pointer;
+  }
+  .mobile-step-dot.active { background: var(--accent); }
+  .mobile-step-dot.done { background: var(--gray-mid); }
+
+  /* ── PLAN TOTAL INVEST ── */
+  .invest-callout {
+    background: linear-gradient(135deg, rgba(228,80,23,0.1), rgba(228,80,23,0.04));
+    border: 1px solid rgba(228,80,23,0.25);
+    border-radius: var(--radius); padding: 24px 28px;
+    margin-bottom: 28px;
+  }
+  .invest-eyebrow {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+  }
+  .invest-value {
+    font-size: 38px; font-weight: 800;
+    color: var(--white); letter-spacing: -0.03em; line-height: 1;
+  }
+  .invest-period {
+    font-size: 12px; color: var(--gray);
+    margin-top: 4px; line-height: 1.5;
+  }
+  .invest-alt {
+    margin-top: 16px; padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .invest-alt-value {
+    font-size: 24px; font-weight: 700;
+    color: var(--gray-light); letter-spacing: -0.02em;
+  }
+  .invest-alt-note { font-size: 11px; color: var(--gray); margin-top: 2px; }
+
+  /* ── DOMINIO HIGHLIGHT ── */
+  .dominio-star {
+    background: rgba(228,80,23,0.12);
+    border: 1px solid rgba(228,80,23,0.3);
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .fade-in.visible {
+    opacity: 1; transform: translateY(0);
+  }
+
+  @media print {
+    #topnav, #bottom-nav, #progress-bar { display: none; }
+    .slide { display: block !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav id="topnav">
+  <div class="nav-logo">Fly<span>360</span></div>
+  <div class="nav-steps" id="nav-steps">
+    <div class="nav-step" data-step="0" onclick="goToSlide(0)">
+      <span class="step-num">01</span> Metodo Fly360
+    </div>
+    <div class="nav-step" data-step="1" onclick="goToSlide(1)">
+      <span class="step-num">02</span> Plano Presenca
+    </div>
+    <div class="nav-step" data-step="2" onclick="goToSlide(2)">
+      <span class="step-num">03</span> Plano Crescimento
+    </div>
+    <div class="nav-step" data-step="3" onclick="goToSlide(3)">
+      <span class="step-num">04</span> Plano Dominio
+    </div>
+  </div>
+</nav>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- MOBILE STEPS -->
+<div class="mobile-steps" id="mobile-steps">
+  <div class="mobile-step-dot" data-step="0" onclick="goToSlide(0)"></div>
+  <div class="mobile-step-dot" data-step="1" onclick="goToSlide(1)"></div>
+  <div class="mobile-step-dot" data-step="2" onclick="goToSlide(2)"></div>
+  <div class="mobile-step-dot" data-step="3" onclick="goToSlide(3)"></div>
+</div>
+
+<!-- SLIDES WRAPPER -->
+<div id="slides-wrapper">
+
+  <!-- ══════════════ SLIDE 1: METODO FLY360 ══════════════ -->
+  <div class="slide slide-1 active" id="slide-0">
+    <div class="slide-inner">
+      <div class="hero-bg"></div>
+
+      <!-- HERO -->
+      <div style="max-width:760px; position:relative;">
+        <div class="section-label">Proposta Comercial — Fly360</div>
+        <div class="hero-line"></div>
+        <h1 class="hero-title">Marketing estrategico para empresas que querem crescer com <em>posicionamento, conteudo e performance.</em></h1>
+        <p class="hero-sub">Nao vendemos postagens. Construimos posicionamento, crescimento e dominio de mercado.</p>
+        <div class="btn-group">
+          <button class="btn-primary" onclick="goToSlide(1)">
+            Conhecer os planos
+            <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- SOBRE A FLY360 -->
+      <div class="about-block">
+        <div>
+          <div class="section-label">Sobre a Fly360</div>
+          <h2 class="section-title">Uma agencia criada para gerar resultado real.</h2>
+          <p class="section-body" style="margin-top:14px;">A Fly360 e uma agencia de marketing estrategico criada para ajudar empresas a crescerem com mais clareza, posicionamento e resultado. Unimos planejamento, conteudo, trafego pago, fotografia, video, analise de dados e estrategia comercial para transformar a presenca digital das marcas em oportunidades reais de crescimento.</p>
+          <div class="tags" style="margin-top:20px;">
+            <span class="tag">Estrategia</span>
+            <span class="tag">Conteudo</span>
+            <span class="tag">Performance</span>
+            <span class="tag">Trafego Pago</span>
+            <span class="tag">Audiovisual</span>
+            <span class="tag">Dados</span>
+          </div>
+        </div>
+        <div class="cards-grid cards-grid-2" style="margin-top:0;">
+          <div class="card card-accent">
+            <div class="pillar-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <div class="card-title">Estrategia</div>
+            <div class="card-body">Planejamento direcionado para o objetivo de cada cliente.</div>
+          </div>
+          <div class="card">
+            <div class="pillar-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+            </div>
+            <div class="card-title">Conteudo</div>
+            <div class="card-body">Criacao de pecas, videos e campanhas com foco em posicionamento e vendas.</div>
+          </div>
+          <div class="card">
+            <div class="pillar-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="card-title">Performance</div>
+            <div class="card-body">Gestao de trafego pago, analise de metricas e otimizacao continua.</div>
+          </div>
+          <div class="card">
+            <div class="pillar-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="card-title">Resultado</div>
+            <div class="card-body">Marketing pensado para gerar visibilidade, autoridade e oportunidades comerciais.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- PROBLEMAS DO MERCADO -->
+      <div class="section-label">O Problema</div>
+      <h2 class="section-title">O que trava o crescimento da maioria das empresas hoje</h2>
+      <div class="cards-grid cards-grid-4" style="margin-top:24px;">
+        <div class="problem-card">
+          <div class="problem-num">01</div>
+          <div class="problem-title">Postagens sem estrategia</div>
+          <div class="problem-body">Conteudo publicado por obrigacao, sem direcionamento comercial nem clareza de publico.</div>
+        </div>
+        <div class="problem-card">
+          <div class="problem-num">02</div>
+          <div class="problem-title">Trafego sem funil</div>
+          <div class="problem-body">Anuncios soltos que geram cliques, mas nao convertem em oportunidades qualificadas.</div>
+        </div>
+        <div class="problem-card">
+          <div class="problem-num">03</div>
+          <div class="problem-title">Marca sem posicionamento</div>
+          <div class="problem-body">Empresa parecida com todos os concorrentes, competindo sempre por preco.</div>
+        </div>
+        <div class="problem-card">
+          <div class="problem-num">04</div>
+          <div class="problem-title">Decisao sem dados</div>
+          <div class="problem-body">Investimento em marketing baseado em achismo, sem leitura de metricas e resultados.</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- METODO FLY360 -->
+      <div class="section-label">O Metodo</div>
+      <h2 class="section-title">Estruturamos marketing como processo comercial.</h2>
+      <p class="section-body" style="margin-top:12px;">Cada etapa do funil e planejada, executada e medida para transformar atencao em consideracao e consideracao em venda.</p>
+
+      <div class="funnel-steps">
+        <div class="funnel-step">
+          <div class="funnel-num">01 / Atrair</div>
+          <div class="funnel-label">Atrair</div>
+          <div class="funnel-desc">Conteudo, midia e SEO local. Geracao de trafego qualificado.</div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-num">02 / Engajar</div>
+          <div class="funnel-label">Engajar</div>
+          <div class="funnel-desc">Posicionamento e construcao de autoridade da marca.</div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-num">03 / Converter</div>
+          <div class="funnel-label">Converter</div>
+          <div class="funnel-desc">Funil A.I.D.A., campanhas fundamentadas em funil de vendas e conversao.</div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-num">04 / Fidelizar</div>
+          <div class="funnel-label">Fidelizar</div>
+          <div class="funnel-desc">Relacionamento, recompra e extensao da marca.</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- METODOLOGIAS -->
+      <div class="section-label">Metodologias</div>
+      <h2 class="section-title">Frameworks que guiam cada entrega</h2>
+      <div class="cards-grid cards-grid-2" style="margin-top:24px;">
+        <div class="method-card">
+          <div class="method-bg">TACO</div>
+          <div class="method-tag"><span>T.A.C.O.</span></div>
+          <div class="method-expand">Tecnica . Autoridade . Conexao . Objecao</div>
+          <div class="method-body">Cada peca publicada cumpre uma funcao clara dentro do funil de marca e vendas. Nao existe conteudo por acaso na Fly360.</div>
+        </div>
+        <div class="method-card">
+          <div class="method-bg">AIDA</div>
+          <div class="method-tag"><span>A.I.D.A.</span></div>
+          <div class="method-expand">Atencao . Interesse . Desejo . Acao</div>
+          <div class="method-body">Campanhas pagas estruturadas em funil para gerar leads, oportunidades e conversoes reais. Cada anuncio tem um proposito claro na jornada de compra.</div>
+        </div>
+      </div>
+
+      <!-- CLOSING -->
+      <div class="closing-quote">
+        <p>Antes de escolher um plano, e preciso entender em qual etapa sua empresa esta. Os planos foram estruturados para diferentes momentos de maturidade digital.</p>
+      </div>
+
+      <!-- NAV BUTTONS -->
+      <div style="margin-top:40px;" class="btn-group">
+        <button class="btn-primary" onclick="goToSlide(1)">
+          Avancar para Plano Presenca
+          <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 2: PLANO PRESENCA ══════════════ -->
+  <div class="slide slide-2" id="slide-1">
+    <div class="slide-inner">
+      <div class="section-label">Etapa 01</div>
+      <span class="plan-badge orange">Base digital organizada</span>
+      <h1 class="hero-title" style="margin-top:12px;">Plano <em>Presenca</em></h1>
+      <p class="hero-sub">A base digital para empresas que precisam comecar com organizacao.</p>
+
+      <div class="plan-grid">
+        <!-- SIDEBAR -->
+        <div class="plan-sidebar">
+          <div class="invest-callout">
+            <div class="invest-eyebrow">Investimento</div>
+            <div class="invest-value">R$ 1.997<span style="font-size:18px;font-weight:500;color:var(--gray)">/mes</span></div>
+            <div class="invest-period">Contrato de 12 meses<br>Verba de trafego nao inclusa</div>
+          </div>
+
+          <div class="choose-if">
+            <div class="choose-if-title">Escolha este plano se...</div>
+            <p>Sua empresa precisa organizar o basico do digital, manter constancia e comecar com uma presenca mais profissional.</p>
+          </div>
+
+          <p class="plan-footnote">Plano ideal para comecar com organizacao, mas nao para empresas que ja precisam escalar vendas com estrategia avancada.</p>
+        </div>
+
+        <!-- CONTENT -->
+        <div>
+          <div class="section-block">
+            <div class="section-block-title">Planejamento</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>Planejamento mensal basico</li>
+                <li>Definicao de pautas simples</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <div class="section-block-title">Gestao de Redes Sociais</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>Gestao de Instagram e Facebook</li>
+                <li>Agendamento de postagens</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <div class="section-block-title">Producao de Conteudo</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>2 postagens semanais</li>
+                <li>1 post estatico</li>
+                <li>1 carrossel</li>
+                <li>Conteudo focado em presenca</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <div class="section-block-title">Producao Audiovisual</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>1 sessao de fotos simples com foco nos produtos e servicos disponiveis</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <div class="section-block-title">Trafego Pago</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>Gestao basica de Meta Ads</li>
+                <li>Campanhas simples de alcance e engajamento</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <div class="section-block-title">Relatorios</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>Relatorio mensal simplificado</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- NAO INCLUI -->
+          <div class="not-included">
+            <div class="not-included-title">Este plano nao inclui</div>
+            <ul class="not-included-list">
+              <li>Videos</li>
+              <li>Estrategia avancada</li>
+              <li>Funil de vendas</li>
+              <li>Google Ads</li>
+              <li>Google Meu Negocio</li>
+              <li>Posicionamento de marca</li>
+              <li>Integracao com sistemas</li>
+              <li>Campanhas de vendas estruturadas</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- NAV BUTTONS -->
+      <div style="margin-top:40px;" class="btn-group">
+        <button class="btn-ghost" onclick="goToSlide(0)">
+          <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(180deg)"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          Voltar
+        </button>
+        <button class="btn-primary" onclick="goToSlide(2)">
+          Avancar para Crescimento
+          <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 3: PLANO CRESCIMENTO ══════════════ -->
+  <div class="slide slide-3" id="slide-2">
+    <div class="slide-inner">
+      <div class="section-label">Etapa 02</div>
+      <span class="plan-badge orange">Mais consistencia e oportunidades</span>
+      <h1 class="hero-title" style="margin-top:12px;">Plano <em>Crescimento</em></h1>
+      <p class="hero-sub">Mais conteudo, mais presenca e mais oportunidades comerciais.</p>
+
+      <div class="plan-grid">
+        <!-- SIDEBAR -->
+        <div class="plan-sidebar">
+          <div class="invest-callout">
+            <div class="invest-eyebrow">Contrato 6 meses</div>
+            <div class="invest-value">R$ 3.865<span style="font-size:18px;font-weight:500;color:var(--gray)">/mes</span></div>
+            <div class="invest-alt">
+              <div class="invest-eyebrow">Contrato 12 meses</div>
+              <div class="invest-alt-value">R$ 3.200<span style="font-size:15px;font-weight:500;color:var(--gray)">/mes</span></div>
+            </div>
+            <div class="invest-period" style="margin-top:12px;">Verba de trafego nao inclusa</div>
+          </div>
+
+          <div class="choose-if">
+            <div class="choose-if-title">Escolha este plano se...</div>
+            <p>Sua empresa ja tem presenca digital, mas precisa crescer com mais consistencia, conteudo, videos e campanhas para gerar oportunidades.</p>
+          </div>
+
+          <p class="plan-footnote">Plano ideal para crescer com consistencia, mas ainda nao substitui uma estrategia completa de dominio digital.</p>
+        </div>
+
+        <!-- CONTENT -->
+        <div>
+          <div class="section-block">
+            <div class="section-block-title">Planejamento</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>Planejamento mensal de conteudo</li>
+                <li>Definicao de pautas e direcionamento de comunicacao</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <div class="section-block-title">Gestao de Redes Sociais</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>Gestao de Instagram e Facebook</li>
+                <li>Agendamento de postagens</li>
+                <li>Organizacao do calendario de conteudo</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <div class="section-block-title">Producao de Conteudo</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>3 postagens semanais</li>
+                <li>1 video</li>
+                <li>1 post estatico</li>
+                <li>1 carrossel</li>
+                <li>Conteudo com foco em engajamento e crescimento</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <div class="section-block-title">Producao Audiovisual</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>60 fotos profissionais</li>
+                <li>24 videos curtos</li>
+                <li>Producao dividida em 2 sessoes ao longo do contrato</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <div class="section-block-title">Trafego Pago</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>Gestao de Meta Ads</li>
+                <li>Campanhas para crescimento de seguidores</li>
+                <li>Campanhas para geracao de contatos via WhatsApp</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <div class="section-block-title">Analise</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>Relatorios de crescimento</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- PRODUCAO ADICIONAL -->
+          <div class="section-block">
+            <div class="section-block-title">Producao Adicional sob Demanda</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+              <div class="addon-card">
+                <div class="addon-title">Pacote de fotos</div>
+                <ul class="addon-list">
+                  <li>10 pratos fotografados</li>
+                  <li>30 fotos entregues</li>
+                  <li style="color:var(--accent); font-weight:700;">Investimento: R$ 1.650</li>
+                </ul>
+              </div>
+              <div class="addon-card">
+                <div class="addon-title">Producao de videos</div>
+                <ul class="addon-list">
+                  <li>R$ 350 sem captacao</li>
+                  <li>R$ 600 com captacao</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- NAO INCLUI -->
+          <div class="not-included">
+            <div class="not-included-title">Este plano nao inclui</div>
+            <ul class="not-included-list">
+              <li>Planejamento estrategico T.A.C.O.</li>
+              <li>Estrategia de funil A.I.D.A.</li>
+              <li>Campanhas por calendario estrategico</li>
+              <li>Reuniao mensal presencial</li>
+              <li>Google Ads</li>
+              <li>Google Meu Negocio</li>
+              <li>Posicionamento de marca</li>
+              <li>TikTok</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- NAV BUTTONS -->
+      <div style="margin-top:40px;" class="btn-group">
+        <button class="btn-ghost" onclick="goToSlide(1)">
+          <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(180deg)"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          Voltar
+        </button>
+        <button class="btn-primary" onclick="goToSlide(3)">
+          Avancar para Dominio
+          <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SLIDE 4: PLANO DOMINIO ══════════════ -->
+  <div class="slide slide-4" id="slide-3">
+    <div class="slide-inner">
+      <div class="section-label">Etapa 03 — Nivel Maximo</div>
+      <span class="plan-badge gold">Plano mais completo</span>
+      <h1 class="hero-title" style="margin-top:12px;">Plano <em>Dominio</em></h1>
+      <p class="hero-sub">A estrutura completa para posicionamento, performance e crescimento consistente.</p>
+
+      <div class="plan-grid">
+        <!-- SIDEBAR -->
+        <div class="plan-sidebar dominio-star">
+          <div class="invest-callout">
+            <div class="invest-eyebrow">Contrato 6 meses</div>
+            <div class="invest-value">R$ 6.265<span style="font-size:18px;font-weight:500;color:var(--gray)">/mes</span></div>
+            <div class="invest-alt">
+              <div class="invest-eyebrow">Contrato 12 meses</div>
+              <div class="invest-alt-value">R$ 5.765<span style="font-size:15px;font-weight:500;color:var(--gray)">/mes</span></div>
+            </div>
+            <div class="invest-period" style="margin-top:12px;">Verba de trafego nao inclusa</div>
+          </div>
+
+          <div class="choose-if">
+            <div class="choose-if-title">Escolha este plano se...</div>
+            <p>Sua empresa busca uma estrategia completa, com posicionamento, trafego pago avancado, Google, TikTok, funil, analise e crescimento estruturado.</p>
+          </div>
+
+          <div class="not-included" style="margin-top:16px; background:rgba(212,175,55,0.04); border-color:rgba(212,175,55,0.12);">
+            <div class="not-included-title" style="color:#D4AF37;">Extras inclusos</div>
+            <p style="font-size:13px; color:var(--gray-light); line-height:1.65;">
+              Contrato de 6 meses: 1 material impresso<br>
+              Contrato de 12 meses: 2 materiais impressos
+            </p>
+          </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div>
+          <div class="section-block">
+            <div class="section-block-title">Planejamento Estrategico</div>
+            <div class="card card-accent">
+              <ul class="plan-list">
+                <li>Metodologia Fly360 e T.A.C.O.</li>
+                <li>Reuniao mensal de alinhamento</li>
+                <li>Calendario editorial mensal e anual</li>
+                <li>Campanhas para datas estrategicas, sazonais e comerciais</li>
+                <li>Definicao de publico-alvo e posicionamento</li>
+                <li>Estruturacao da comunicacao e direcionamento de vendas</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <div class="section-block-title">Presenca Digital</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>Gestao de Instagram, Facebook e TikTok</li>
+                <li>Gestao de Google Meu Negocio</li>
+                <li>Otimizacao da presenca digital e visibilidade local</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <div class="section-block-title">Producao de Conteudo</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>Criacao de conteudo estrategico e personalizado</li>
+                <li>3 postagens semanais entre feed, stories, videos e carrossel</li>
+                <li>Ate 4 posts estaticos extras por mes</li>
+                <li>Conteudo orientado pela metodologia T.A.C.O.</li>
+                <li>Design profissional adaptado as plataformas</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <div class="section-block-title">Producao Audiovisual</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>1 sessao mensal de fotos e videos</li>
+                <li>Producao direcionada para campanhas e posicionamento</li>
+                <li>Captacao no estabelecimento</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <div class="section-block-title">Trafego Pago</div>
+            <div class="card card-accent">
+              <ul class="plan-list">
+                <li>Gestao de Meta Ads com aplicacao de funil A.I.D.A.</li>
+                <li>Gestao de Google Ads</li>
+                <li>Campanhas com foco em geracao de leads</li>
+                <li>Campanhas com foco em reconhecimento de marca</li>
+                <li>Campanhas com foco em vendas</li>
+                <li>Otimizacao continua de campanhas</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <div class="section-block-title">Metodologia e Performance</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>Estruturacao de funil de vendas</li>
+                <li>Remarketing</li>
+                <li>Direcionamento estrategico para aumento de conversao</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <div class="section-block-title">Tecnologia e Integracao</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>Implementacao de pixel e rastreamento de conversoes</li>
+                <li>Integracao com sistemas de vendas</li>
+                <li>Indicacao de softwares para mensuracao de resultados</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-block">
+            <div class="section-block-title">Operacao e Analise</div>
+            <div class="card">
+              <ul class="plan-list">
+                <li>Agendamento de postagens</li>
+                <li>Relatorios mensais de desempenho</li>
+                <li>Analise estrategica de metricas</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── COMPARATIVO ── -->
+      <div class="divider"></div>
+      <div class="section-label">Comparativo</div>
+      <h2 class="section-title">Os tres planos lado a lado</h2>
+      <p class="section-body" style="margin-top:8px; margin-bottom:4px;">Cada plano foi criado para um momento diferente de maturidade digital. Escolha o que corresponde ao estagio atual da sua empresa.</p>
+
+      <div class="comparison-wrapper">
+        <table class="comparison">
+          <thead>
+            <tr>
+              <th style="text-align:left; width:38%;">Servico / Entregavel</th>
+              <th>Presenca</th>
+              <th>Crescimento</th>
+              <th class="col-dominio">Dominio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Planejamento mensal</td>
+              <td class="col-other"><span class="check-yes">&#10003;</span></td>
+              <td class="col-other"><span class="check-yes">&#10003;</span></td>
+              <td class="col-dominio"><span class="check-yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td>Planejamento estrategico T.A.C.O.</td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-dominio"><span class="check-yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td>Reuniao mensal</td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-dominio"><span class="check-yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td>Campanhas por datas estrategicas</td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-dominio"><span class="check-yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td>Definicao de publico e posicionamento</td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-dominio"><span class="check-yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td>Gestao Instagram e Facebook</td>
+              <td class="col-other"><span class="check-yes">&#10003;</span></td>
+              <td class="col-other"><span class="check-yes">&#10003;</span></td>
+              <td class="col-dominio"><span class="check-yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td>Gestao TikTok</td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-dominio"><span class="check-yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td>Google Meu Negocio</td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-dominio"><span class="check-yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td>Postagens semanais</td>
+              <td class="col-other"><span class="check-val">2</span></td>
+              <td class="col-other"><span class="check-val">3</span></td>
+              <td class="col-dominio"><span class="check-val-dom">3 +extras</span></td>
+            </tr>
+            <tr>
+              <td>Videos</td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-other"><span class="check-yes">&#10003;</span></td>
+              <td class="col-dominio"><span class="check-yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td>Producao audiovisual</td>
+              <td class="col-other" style="color:var(--gray-light);">Basico</td>
+              <td class="col-other" style="color:var(--gray-light);">Medio</td>
+              <td class="col-dominio">Avancado</td>
+            </tr>
+            <tr>
+              <td>Sessoes de captacao</td>
+              <td class="col-other" style="color:var(--gray-light);">1 simples</td>
+              <td class="col-other" style="color:var(--gray-light);">2</td>
+              <td class="col-dominio">Mensal</td>
+            </tr>
+            <tr>
+              <td>Meta Ads</td>
+              <td class="col-other" style="color:var(--gray-light);">Basico</td>
+              <td class="col-other"><span class="check-yes">&#10003;</span></td>
+              <td class="col-dominio"><span class="check-yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td>Google Ads</td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-dominio"><span class="check-yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td>Campanhas para WhatsApp</td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-other"><span class="check-yes">&#10003;</span></td>
+              <td class="col-dominio"><span class="check-yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td>Campanhas para vendas</td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-dominio"><span class="check-yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td>Funil A.I.D.A.</td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-dominio"><span class="check-yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td>Pixel e rastreamento</td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-dominio"><span class="check-yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td>Integracao com sistemas</td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-other"><span class="check-no">&#8212;</span></td>
+              <td class="col-dominio"><span class="check-yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td>Relatorios</td>
+              <td class="col-other" style="color:var(--gray-light);">Simples</td>
+              <td class="col-other"><span class="check-yes">&#10003;</span></td>
+              <td class="col-dominio"><span class="check-yes">&#10003;</span></td>
+            </tr>
+            <tr>
+              <td style="border-bottom:none;">Analise estrategica</td>
+              <td class="col-other" style="border-bottom:none;"><span class="check-no">&#8212;</span></td>
+              <td class="col-other" style="border-bottom:none;"><span class="check-no">&#8212;</span></td>
+              <td class="col-dominio" style="border-bottom:none;"><span class="check-yes">&#10003;</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FINAL CTA -->
+      <div class="final-cta">
+        <h2 class="final-cta-title">Vamos construir o proximo nivel da sua marca?</h2>
+        <p class="final-cta-body">Agora que voce conhece o metodo, os planos e o processo, o proximo passo e definirmos juntos a estrategia certa para o seu momento.</p>
+        <div class="final-cta-quote">"Marketing nao e sobre aparecer. E sobre ser lembrado, desejado e escolhido."</div>
+        <div class="btn-group">
+          <a href="#" class="btn-primary" style="text-decoration:none;">
+            Quero avancar com a Fly360
+            <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="#" class="btn-secondary" style="text-decoration:none;">
+            Falar com um estrategista
+          </a>
+        </div>
+      </div>
+
+      <!-- NAV BUTTONS -->
+      <div style="margin-top:32px;" class="btn-group">
+        <button class="btn-ghost" onclick="goToSlide(2)">
+          <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(180deg)"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          Voltar
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /slides-wrapper -->
+
+<!-- BOTTOM NAV -->
+<div id="bottom-nav">
+  <div class="bottom-nav-info">Etapa <span id="current-step-label">1</span> de 4</div>
+  <div class="btn-group" style="gap:12px;">
+    <button class="btn-ghost" id="btn-prev" onclick="prevSlide()">
+      <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(180deg)"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      Voltar
+    </button>
+    <button class="btn-primary" id="btn-next" onclick="nextSlide()">
+      Avancar
+      <svg class="arrow-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const totalSlides = 4;
+  const stepNames = ['Metodo Fly360', 'Plano Presenca', 'Plano Crescimento', 'Plano Dominio'];
+
+  function goToSlide(n) {
+    const isDesktop = window.innerWidth >= 900;
+
+    if (isDesktop) {
+      // Horizontal slide
+      const wrapper = document.getElementById('slides-wrapper');
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach(s => s.style.transform = `translateX(-${n * 100}vw)`);
+    } else {
+      // Mobile: show/hide
+      document.querySelectorAll('.slide').forEach((s, i) => {
+        s.classList.toggle('active', i === n);
+      });
+      window.scrollTo(0, 0);
+    }
+
+    currentSlide = n;
+    updateNav();
+    scrollSlideToTop(n);
+  }
+
+  function scrollSlideToTop(n) {
+    const slide = document.getElementById('slide-' + n);
+    if (slide && window.innerWidth >= 900) {
+      slide.scrollTop = 0;
+    }
+  }
+
+  function nextSlide() {
+    if (currentSlide < totalSlides - 1) goToSlide(currentSlide + 1);
+  }
+
+  function prevSlide() {
+    if (currentSlide > 0) goToSlide(currentSlide - 1);
+  }
+
+  function updateNav() {
+    // Progress bar
+    const pct = ((currentSlide + 1) / totalSlides) * 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+
+    // Top nav steps
+    document.querySelectorAll('.nav-step').forEach((el, i) => {
+      el.classList.remove('active', 'done');
+      if (i === currentSlide) el.classList.add('active');
+      else if (i < currentSlide) el.classList.add('done');
+    });
+
+    // Mobile dots
+    document.querySelectorAll('.mobile-step-dot').forEach((el, i) => {
+      el.classList.remove('active', 'done');
+      if (i === currentSlide) el.classList.add('active');
+      else if (i < currentSlide) el.classList.add('done');
+    });
+
+    // Bottom nav
+    document.getElementById('current-step-label').textContent = currentSlide + 1;
+    document.getElementById('btn-prev').style.opacity = currentSlide === 0 ? '0.3' : '1';
+    document.getElementById('btn-prev').style.pointerEvents = currentSlide === 0 ? 'none' : 'auto';
+    document.getElementById('btn-next').style.opacity = currentSlide === totalSlides - 1 ? '0.3' : '1';
+    document.getElementById('btn-next').style.pointerEvents = currentSlide === totalSlides - 1 ? 'none' : 'auto';
+
+    const nextNames = ['Presenca', 'Crescimento', 'Dominio'];
+    if (currentSlide < totalSlides - 1) {
+      document.getElementById('btn-next').childNodes[0].textContent = 'Avancar ';
+    }
+  }
+
+  // Init desktop layout
+  function initDesktop() {
+    if (window.innerWidth >= 900) {
+      document.querySelectorAll('.slide').forEach((s, i) => {
+        s.style.transform = `translateX(-${currentSlide * 100}vw)`;
+        s.classList.add('active');
+      });
+    }
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSlide();
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+  });
+
+  // Handle resize
+  window.addEventListener('resize', () => {
+    initDesktop();
+    if (window.innerWidth < 900) {
+      document.querySelectorAll('.slide').forEach((s, i) => {
+        s.style.transform = '';
+        s.classList.toggle('active', i === currentSlide);
+      });
+    }
+  });
+
+  // Init
+  initDesktop();
+  updateNav();
+
+  // Reveal animation on scroll (mobile) or on slide change
+  const observerOpts = { threshold: 0.1, rootMargin: '0px 0px -40px 0px' };
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, observerOpts);
+  document.querySelectorAll('.card, .problem-card, .funnel-step, .method-card').forEach(el => {
+    el.classList.add('fade-in');
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
